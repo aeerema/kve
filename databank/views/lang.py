@@ -9,7 +9,7 @@ from databank.forms.tense_system_form import TenseSystemForm
 from databank.forms.combinations_form import MMForm, MAForm, AMForm, AAForm
 from databank.forms.main_comment_form import MainCommentForm
 from databank.forms.comment_form import CommentForm
-from databank.forms.comment_image_form import CommentImageForm
+# from databank.forms.comment_image_form import CommentImageForm
 
 
 def lang_page(request):
