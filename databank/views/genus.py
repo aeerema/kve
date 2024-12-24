@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Count
 
 from databank.models.genus import Genus
 from databank.models.language import Language
@@ -10,7 +11,7 @@ def genus_page(request):
 
     context = {
         "cur_genus": cur_genus_obj,
-        "genus_list": Genus.objects.all(),
+        "genus_list": Genus.objects.annotate(language_count=Count('language')),
         "cur_genus_langs": Language.objects.filter(genus=cur_genus_obj.id),
     }
     return render(request, "genus.html", context)

@@ -214,8 +214,18 @@ footer {
     padding: 1%;
 }
 
-
-
+.button-sort-table {
+    background-color: var(--main-color);
+    color: white;
+    padding: 1px 3px 1px 3px;
+    border: 1px solid var(--main-color);
+    border-radius: 8px;
+    cursor: pointer;
+}
+.button-sort-table:hover {
+    background-color: var(--main-color-dd);
+    border-color: var(--main-color-dd);
+}
 
 
 .select-in-table-animation {

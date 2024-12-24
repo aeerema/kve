@@ -18,18 +18,20 @@
     </div>
   </h1>
 
+  
+
   <table class="home">
     <thead>
       <tr>
         <th class="code">Код</th>
-        <th class="lang">Язык</th>
-        <th class="ts">Система времён</th>
-        <th class="tm">FUT</th>
-        <th class="tm">PST</th>
-        <th class="comb">мрф-мрф</th>
-        <th class="comb">мрф-анл</th>
-        <th class="comb">анл-мрф</th>
-        <th class="comb">анл-анл</th>
+        <th class="lang">Язык {% include "bttn_sort.html" with i=1 %}</th>
+        <th class="ts">Система времён {% include "bttn_sort.html" with i=2 %}</th>
+        <th class="tm">FUT {% include "bttn_sort.html" with i=3 %}</th>
+        <th class="tm">PST {% include "bttn_sort.html" with i=4 %}</th>
+        <th class="comb">мрф-мрф {% include "bttn_sort.html" with i=5 %}</th>
+        <th class="comb">мрф-анл {% include "bttn_sort.html" with i=6 %}</th>
+        <th class="comb">анл-мрф {% include "bttn_sort.html" with i=7 %}</th>
+        <th class="comb">анл-анл {% include "bttn_sort.html" with i=8 %}</th>
       </tr>
     </thead>
     <tbody>

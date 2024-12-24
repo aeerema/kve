@@ -86,15 +86,17 @@ function registerTextareaInputListener() {
 
 function registerKeysListener() {
     document.body.addEventListener('keydown', function(e) {
-        console.log(e);
         if (e.key == "Escape") {
             e.target.blur();
         }
         else if (e.ctrlKey && e.key == "Enter") {
             e.target.blur();
-            setTimeout(function() {document.getElementsByClassName('add-comment-button')[0].click();},100)
-            // console.log(document.getElementsByClassName('add-comment-button')[0])
-            
+        }
+        else if (e.shiftKey && e.key == "Enter") {
+            e.target.blur();
+            setTimeout(function() {
+                document.getElementsByClassName('add-comment-button')[0].click();
+            }, 100)
         }
       });
 }
