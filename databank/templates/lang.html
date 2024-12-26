@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <title>{% if cur_lang %} {{ cur_lang }} {% else %} DATABANK {% endif %}</title>
+  <link rel="icon" href="{% static 'favicon.ico' %}">
   <link rel="stylesheet" href="{% static 'css/base.css' %}">
-  
+  <link rel="stylesheet" href="{% static 'css/add_image.css' %}">
+
   <script src="{% static 'js/dop-info.js' %}"></script>
   <script src="{% static 'js/lang.js' %}"></script>
 </head>
@@ -56,29 +58,47 @@
       </thead>
       <tbody>
         <tr>
-          <td class="ts"><form method="post">{% csrf_token %}{{ forms.ts }}</form></td>
-          <td class="tm"><form method="post">{% csrf_token %}{{ forms.fut }}</form></td>
-          <td class="tm"><form method="post">{% csrf_token %}{{ forms.pst }}</form></td>
-          <td class="comb"><form method="post">{% csrf_token %}{{ forms.mm }}</form></td>
-          <td class="comb"><form method="post">{% csrf_token %}{{ forms.ma }}</form></td>
-          <td class="comb"><form method="post">{% csrf_token %}{{ forms.am }}</form></td>
-          <td class="comb"><form method="post">{% csrf_token %}{{ forms.aa }}</form></td>
+          <td class="ts">
+            <form method="post">{% csrf_token %}{{ forms.ts }}</form>
+          </td>
+          <td class="tm">
+            <form method="post">{% csrf_token %}{{ forms.fut }}</form>
+          </td>
+          <td class="tm">
+            <form method="post">{% csrf_token %}{{ forms.pst }}</form>
+          </td>
+          <td class="comb">
+            <form method="post">{% csrf_token %}{{ forms.mm }}</form>
+          </td>
+          <td class="comb">
+            <form method="post">{% csrf_token %}{{ forms.ma }}</form>
+          </td>
+          <td class="comb">
+            <form method="post">{% csrf_token %}{{ forms.am }}</form>
+          </td>
+          <td class="comb">
+            <form method="post">{% csrf_token %}{{ forms.aa }}</form>
+          </td>
         </tr>
       </tbody>
     </table>
     <form method="post" id="main_comment">{% csrf_token %}{{ forms.main_comment }}</form>
+    
+    <button class="img-zoom-btn" onclick="toggleImageZoom(this)">zoom ❎</button>
 
-    <form method="post" id="all_comments">
-      {% csrf_token %}
-      {% for c in forms.comments %}
-        {{ c }}
-      {% endfor %}
-    </form>
+    <div id="all_comments">
+    {% for comment in forms.comments %}
+      <div>
+        {% include 'comment_form.html' with form=comment.form images=comment.images %}
+      </div>
+    {% endfor %}
+    </div>
+    
     <form method="POST" id="add_comment_form">
       {% csrf_token %}
-      <input type="hidden" name="add_comment"/>
+      <input type="hidden" name="add_comment" />
       <div><button type="button" class="add-comment-button" onclick="postAddComment(this)">+</button></div>
-    </form>  
+    </form>
   </div>
   <div class="test"></div>
 </body>

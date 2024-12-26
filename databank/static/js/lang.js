@@ -1,6 +1,7 @@
 
 function main() {
     registerTextareaInputListener();
+    registerAddImageFormListener();
     registerKeysListener();    
 }
 
@@ -9,9 +10,7 @@ function postMainComment(text_area) {
     xhr.open('POST', document.URL, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
-            text_area.classList.remove('comment-animation');
-            text_area.offsetWidth
-            text_area.classList.add('comment-animation');
+            animate(text_area, 'comment-animation');
         }
     }
     xhr.send(new FormData(text_area.parentNode.parentNode));
@@ -22,9 +21,7 @@ function postIntableSelect(select) {
     xhr.open('POST', document.URL, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
-            select.classList.remove('select-in-table-animation');
-            select.offsetWidth
-            select.classList.add('select-in-table-animation');
+            animate(select, 'select-in-table-animation');
         }
     }
     xhr.send(new FormData(select.parentNode.parentNode));
@@ -35,11 +32,13 @@ function postAddComment(button) {
     xhr.open('POST', document.URL, true);
     xhr.onload = function() {
         if (xhr.status === 200) {
+            console.log(xhr.response);
             let comment = document.createElement('div');
             comment.innerHTML = xhr.response;
-            addTextareaInputListener(comment.lastChild);
+            console.log(comment.firstElementChild);
+            addTextareaInputListener(comment.firstElementChild.firstElementChild);
             document.getElementById('all_comments').appendChild(comment);
-            document.getElementById(comment.lastChild.id).focus();
+            comment.firstElementChild.firstElementChild.focus();
         }
     }
     xhr.send(new FormData(button.parentNode.parentNode));
@@ -50,22 +49,27 @@ function postComment(current_comment) {
     xhr.open('POST', document.URL, true);
     
     xhr.onload = function() {
-        let comments = document.getElementById('all_comments')
+        let comment_form = current_comment.parentNode.parentNode;
         if (xhr.status === 200) {
-            for (let comment of comments) {
-                if (comment.name == current_comment.name && current_comment.value == "")
-                    comments.removeChild(comment.parentNode);
-                else if (comment.nodeName == "TEXTAREA" && comment.value == "")
-                    comments.removeChild(comment.parentNode);
-            }
-            current_comment.classList.remove('comment-animation');
-            current_comment.offsetWidth
-            current_comment.classList.add('comment-animation');
+            animate(current_comment, 'comment-animation')
+            if (current_comment.value == "")
+                document.getElementById('all_comments').removeChild(comment_form);
         }
     }
-
-    xhr.send(new FormData(current_comment.parentNode.parentNode));
+    xhr.send(new FormData(current_comment.parentNode));
 }
+
+function postAddImage(button) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', document.URL, true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            button.parentNode.parentNode.parentNode.innerHTML = xhr.response;
+            registerTextareaInputListener();
+        }
+    }
+    xhr.send(new FormData(button.parentNode));
+};
 
 
 function addTextareaInputListener(textarea){
@@ -76,11 +80,21 @@ function addTextareaInputListener(textarea){
         this.innerHTML = this.value;
     });
 }
-
 function registerTextareaInputListener() {
     document.querySelectorAll("textarea").forEach(function(textarea) {
         textarea.style.height = textarea.scrollHeight + "px";
         addTextareaInputListener(textarea);
+    });
+};
+
+function addAddImageFormListener(fileInput){
+    fileInput.addEventListener("change", function() {
+        this.parentNode.lastElementChild.innerHTML = this.files[0].name;
+    });
+}
+function registerAddImageFormListener() {
+    document.querySelectorAll("input[type=file]").forEach(function(fileInput) {
+        addAddImageFormListener(fileInput);
     });
 };
 
@@ -99,4 +113,19 @@ function registerKeysListener() {
             }, 100)
         }
       });
+}
+
+
+function animate(object, className){
+    object.classList.remove(className);
+    object.offsetWidth
+    object.classList.add(className);
+}
+
+function toggleImageZoom(button) {
+    [...document.getElementsByClassName('img-cmnt')].forEach(function(img) {
+        img.classList.toggle('img-zoom');
+    });
+    button.textContent = button.textContent=='zoom ✅'? 'zoom ❎' : 'zoom ✅';
+    button.classList.toggle('zoom');
 }
